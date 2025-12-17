@@ -236,16 +236,25 @@
         }
 
         function startRedirect(url) {
-            const overlay = document.getElementById("loading-overlay");
-            const bar = document.getElementById("progress-bar");
-            overlay.style.display = "block";
-            
-            setTimeout(() => { bar.style.width = "100%"; }, 50);
+    const overlay = document.getElementById("loading-overlay");
+    const bar = document.getElementById("progress-bar");
+    
+    // 1. 초기화: 애니메이션 없이 즉시 0%로 되돌림
+    bar.style.transition = "none"; 
+    bar.style.width = "0%";
+    overlay.style.display = "block";
 
-            setTimeout(() => {
-                window.location.href = url;
-            }, 1600);
-        }
+    // 2. 브라우저가 0% 상태를 인식하도록 살짝 지연 후 애니메이션 실행
+    setTimeout(() => {
+        bar.style.transition = "width 1.5s cubic-bezier(0.4, 0, 0.2, 1)";
+        bar.style.width = "100%";
+    }, 50); // 50ms 정도의 미세한 지연이 필요합니다.
+
+    // 3. 페이지 이동
+    setTimeout(() => {
+        window.location.href = url;
+    }, 1600);
+}
 
         function simCommand(cmd) {
             const term = document.getElementById("terminal");
