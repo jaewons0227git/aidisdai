@@ -3,272 +3,269 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MinsuGPT 접속패널</title>
-    
+    <title>MinsuGPT | Security Gateway</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Elms+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Elms+Sans:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
     <style>
-        /* 한글 폰트: Godo */
-        @font-face {
-            font-family: 'Godo';
-            src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoM.woff2') format('woff2'),
-                 url('//cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoM.woff') format('woff');
-            font-weight: 400;
-            font-display: swap;
-        }
-        @font-face {
-            font-family: 'Godo';
-            src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoB.woff2') format('woff2'),
-                 url('//cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoB.woff') format('woff');
-            font-weight: 700;
-            font-display: swap;
-        }
-
         :root {
-            /* 모든 요소에 적용될 폰트 스택 */
-            --main-font: 'Godo', 'Elms Sans', sans-serif;
-            --primary-color: #2563eb;
-            --bg-gradient: radial-gradient(circle at top left, #f8fafc, #e2e8f0);
-            --card-bg: rgba(255, 255, 255, 0.85);
+            --primary-red: #ff3b30;
+            --dark-red: #8b0000;
+            --bg-white: #f5f5f7;
+            --card-bg: #ffffff;
+            --text-black: #1d1d1f;
+            --text-gray: #86868b;
+            /* 영문: Elms Sans / 한글: Godo */
+            --font-family: 'Elms Sans', 'Outfit', 'Godo', 'Godo M', 'Malgun Gothic', sans-serif;
         }
 
-        * {
-            /* 모든 요소에 폰트 강제 적용 */
-            font-family: var(--main-font) !important;
-            box-sizing: border-box;
+        * { font-family: var(--font-family) !important; box-sizing: border-box; }
+
+        body { 
+            margin: 0; 
+            background-color: var(--bg-white); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            color: var(--text-black); 
         }
 
-        body {
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: var(--bg-gradient);
-            color: #1e293b;
-        }
-
-        .card {
-            width: 90%;
-            max-width: 480px;
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.4);
-            border-radius: 35px;
-            padding: 45px 35px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
-            animation: fadeIn 0.6s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .header-group {
+        /* 로그인 컨테이너 */
+        #login-container { 
+            width: 100%; 
+            max-width: 420px; 
+            padding: 40px; 
             text-align: center;
-            margin-bottom: 40px;
+            background: var(--card-bg);
+            border-radius: 24px;
+            border: 1px solid #e1e4e8;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
         }
 
-        .title-main {
-            font-size: 36px;
-            font-weight: 700;
-            margin: 0;
+        .logo { 
+            font-size: 28px; 
+            font-weight: 800; 
+            margin-bottom: 5px; 
             letter-spacing: -1px;
-            color: #0f172a;
+            color: var(--primary-red);
         }
 
-        .title-sub {
-            display: block;
-            font-size: 15px;
-            color: #64748b;
-            margin-top: 5px;
-            font-weight: 400;
-        }
-
-        .button-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .btn {
-            position: relative;
-            width: 100%;
-            padding: 25px;
-            border-radius: 22px;
-            background: white;
-            border: 2px solid #0f172a; /* 기존 디자인의 진한 테두리 복구 */
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            overflow: hidden;
-        }
-
-        .btn:hover {
-            background-color: #0f172a;
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.15);
-        }
-
-        .btn:hover .btn-text, 
-        .btn:hover .btn-desc {
-            color: #ffffff;
-        }
-
-        .btn-info {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 2px;
-            z-index: 1;
-        }
-
-        .btn-text {
-            font-size: 22px;
-            font-weight: 700;
-            color: #0f172a;
-            transition: color 0.3s ease;
-        }
-
-        .btn-desc {
-            font-size: 13px;
-            color: #64748b;
-            transition: color 0.3s ease;
-        }
-
-        /* 어드민 뱃지 */
-        .badge {
-            z-index: 1;
-            font-size: 11px;
-            padding: 5px 12px;
+        /* 경고 문구 스타일 (복구됨) */
+        .warning-box {
+            background: rgba(255, 59, 48, 0.05);
+            border: 1px solid var(--primary-red);
+            padding: 15px;
             border-radius: 12px;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+        .warning-title {
+            color: var(--primary-red);
             font-weight: 700;
-            background: #f1f5f9;
-            color: #0f172a;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .badge::before {
-            content: '';
-            width: 7px;
-            height: 7px;
-            background: #22c55e;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
-            70% { box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
-        }
-
-        /* 로딩 바 */
-        .loader-container {
-            display: none;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 6px;
-            background-color: rgba(255,255,255,0.1);
-        }
-
-        .loader-fill {
-            width: 0%;
-            height: 100%;
-            background: #3b82f6;
-            transition: width 2s linear;
-        }
-
-        .btn.loading .btn-info, 
-        .btn.loading .badge {
-            visibility: hidden;
-        }
-
-        .btn.loading .loader-container {
+            font-size: 14px;
+            margin-bottom: 5px;
             display: block;
+            animation: blink 1.5s infinite;
+        }
+        .warning-text {
+            color: var(--text-gray);
+            font-size: 12px;
+            line-height: 1.5;
         }
 
-        /* 모바일 최적화: 가로 배열 유지하고 싶다면 min-width 조절 */
-        @media (min-width: 500px) {
-            .button-container {
-                flex-direction: row;
-            }
-            .btn {
-                flex: 1;
-                flex-direction: column;
-                height: 210px;
-                justify-content: center;
-                text-align: center;
-                gap: 15px;
-            }
-            .btn-info {
-                align-items: center;
-            }
+        /* 입력창 디자인 */
+        .input-field {
+            width: 100%; padding: 16px; font-size: 15px; border: 1px solid #ddd;
+            border-radius: 10px; margin-bottom: 12px; outline: none; transition: all 0.3s;
+            background: #fff; color: black;
         }
+        .input-field:focus { 
+            border-color: var(--primary-red); 
+            box-shadow: 0 0 0 4px rgba(255, 59, 48, 0.1); 
+        }
+
+        /* 로그인 실패 인라인 메시지 */
+        #login-error { color: var(--primary-red); font-size: 13px; margin-bottom: 12px; display: none; font-weight: 600; }
+
+        .submit-btn {
+            width: 100%; padding: 16px; font-size: 16px; font-weight: 700;
+            background-color: var(--primary-red); color: white; border: none; border-radius: 10px;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .submit-btn:hover { background-color: var(--dark-red); }
+
+        /* 포털 UI */
+        #main-portal { display: none; width: 100%; max-width: 500px; padding: 20px; animation: fadeIn 0.8s ease; }
+        .portal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+        .portal-card {
+            background: #fff; border-radius: 16px; padding: 25px 15px; border: 1px solid #eee;
+            cursor: pointer; transition: all 0.3s; color: var(--text-black); text-align: center;
+        }
+        .portal-card:hover { border-color: var(--primary-red); transform: translateY(-3px); }
+
+        /* 로딩 바 애니메이션 */
+        #loading-overlay { display: none; margin-bottom: 20px; }
+        .progress-container { width: 100%; height: 8px; background: #eee; border-radius: 10px; overflow: hidden; margin-top: 10px; }
+        .progress-bar { width: 0%; height: 100%; background: var(--primary-red); transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1); }
+
+        /* 터미널 시뮬레이션 */
+        .terminal-box {
+            background: #1c1c1e; color: #32d74b; font-family: 'Courier New', monospace !important;
+            padding: 15px; border-radius: 12px; font-size: 12px; margin-top: 15px;
+            height: 120px; overflow-y: auto; text-align: left; display: none; border: 1px solid #333;
+        }
+
+        /* 모달 스타일 */
+        #modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(4px); }
+        .modal { background: white; padding: 30px; border-radius: 20px; width: 320px; text-align: center; border-top: 6px solid var(--primary-red); }
+        .modal-btn { background: var(--primary-red); color: white; border: none; padding: 12px 24px; border-radius: 8px; margin-top: 20px; cursor: pointer; font-weight: 600; }
+
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <div class="header-group">
-            <h1 class="title-main">MinsuGPT</h1>
-            <span class="title-sub">ADMIN PORTAL</span>
+    <div id="login-container">
+        <div class="logo">MinsuGPT SECURITY</div>
+        <p style="color:var(--text-gray); font-size: 14px; margin-bottom: 25px;">인가된 관리자만 접근할 수 있습니다.</p>
+        
+        <div class="warning-box">
+            <span class="warning-title">⚠️ WARNING: RESTRICTED ACCESS</span>
+            <span class="warning-text">
+                이 시스템에 대한 모든 접속 시도는 모니터링 및 기록되고 있습니다. 
+                비인가자의 무단 접속 시 관련 법률에 따라 처벌을 받을 수 있습니다.
+            </span>
         </div>
 
-        <div class="button-container">
-            <button class="btn" onclick="startLoading(this, 'https://lite.minsugpt.kro.kr')">
-                <div class="btn-info">
-                    <span class="btn-text">Lite</span>
-                    <span class="btn-desc">MinsuGPT Lite</span>
-                </div>
-                <div class="badge">ONLINE</div>
-                <div class="loader-container">
-                    <div class="loader-fill"></div>
-                </div>
-            </button>
+        <input type="text" id="uid" class="input-field" placeholder="Admin ID" autocomplete="off">
+        <input type="password" id="upw" class="input-field" placeholder="Access Password" autocomplete="off">
+        <div id="login-error">잘못된 접근입니다. 보안 로그에 기록되었습니다.</div>
+        <button id="login-btn" class="submit-btn" onclick="attemptLogin()">시스템 접속</button>
+        
+        <p style="font-size: 11px; color: #bbb; margin-top: 20px;">IP Address Recorded: [PROTECTED]</p>
+    </div>
 
-            <button class="btn" onclick="startLoading(this, 'https://minsugpt.kro.kr')">
-                <div class="btn-info">
-                    <span class="btn-text">nomal</span>
-                    <span class="btn-desc">MinsuGPT</span>
-                </div>
-                <div class="badge">ONLINE</div>
-                <div class="loader-container">
-                    <div class="loader-fill"></div>
-                </div>
+    <div id="main-portal">
+        <div style="text-align: left; margin-bottom: 20px;">
+            <div style="font-size: 14px; color: var(--primary-red); font-weight: 600;">Authorized Session</div>
+            <h1 style="font-size: 28px; margin: 5px 0 0 0; color: var(--text-black);">관리자 권한으로 접속됨</h1>
+        </div>
+
+        <div id="loading-overlay">
+            <span style="font-size: 13px; font-weight: 600;" id="loading-status">보안 터널 생성 중...</span>
+            <div class="progress-container"><div id="progress-bar" class="progress-bar"></div></div>
+        </div>
+
+        <div class="portal-grid">
+            <button class="portal-card" onclick="startRedirect('https://lite.minsugpt.kro.kr')">
+                <span style="font-size: 18px; font-weight: 700; display: block;">Lite Mode</span>
+                <span style="font-size: 12px; color: var(--text-gray);">Server Status: Normal</span>
             </button>
+            <button class="portal-card" onclick="startRedirect('https://minsugpt.kro.kr')">
+                <span style="font-size: 18px; font-weight: 700; display: block;">Standard</span>
+                <span style="font-size: 12px; color: var(--text-gray);">All Systems Active</span>
+            </button>
+        </div>
+
+        <div style="background: #fff; padding: 25px; border-radius: 20px; border: 1px solid #eee;">
+            <div style="font-weight: 700; margin-bottom: 15px; font-size: 15px;">System Management</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <button class="submit-btn" style="background:#f2f2f7; color:#d32f2f; font-size:13px; padding:12px;" onclick="simCommand('SHUTDOWN')">서버 셧다운</button>
+                <button class="submit-btn" style="background:#f2f2f7; color:#1d1d1f; font-size:13px; padding:12px;" onclick="simCommand('REBOOT')">재부팅</button>
+                <button class="submit-btn" style="background:#f2f2f7; color:#d32f2f; font-size:13px; padding:12px;" onclick="simCommand('STOP_ALL')">모든 서버 중지</button>
+                <button class="submit-btn" style="background:#f2f2f7; color:#2e7d32; font-size:13px; padding:12px;" onclick="simCommand('START_ALL')">모든 서버 가동</button>
+            </div>
+            <div id="terminal" class="terminal-box"></div>
+        </div>
+    </div>
+
+    <div id="modal-overlay">
+        <div class="modal">
+            <h3 id="modal-title" style="margin-top:0; color:var(--primary-red);">Command Executed</h3>
+            <p id="modal-msg" style="color:var(--text-gray); font-size: 14px;"></p>
+            <button class="modal-btn" onclick="closeModal()">확인</button>
         </div>
     </div>
 
     <script>
-        function startLoading(btn, url) {
-            document.querySelectorAll('.btn').forEach(b => {
-                b.style.pointerEvents = 'none';
-                if(b !== btn) b.style.opacity = '0.3';
-            });
+        const API = "https://jaewondev2.pythonanywhere.com/check-access";
+
+        async function attemptLogin() {
+            const id = document.getElementById("uid").value;
+            const password = document.getElementById("upw").value;
+            const errorMsg = document.getElementById("login-error");
+            const btn = document.getElementById("login-btn");
+
+            errorMsg.style.display = "none";
+
+            if (!id || !password) {
+                errorMsg.innerText = "인증 정보를 입력하십시오.";
+                errorMsg.style.display = "block";
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerText = "인증 중...";
+
+            try {
+                const res = await fetch(API, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ id, password })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    document.getElementById("login-container").remove();
+                    document.getElementById("main-portal").style.display = "block";
+                    document.body.style.backgroundColor = "#fff";
+                } else {
+                    errorMsg.innerText = "잘못된 접근입니다. 보안 로그에 기록되었습니다.";
+                    errorMsg.style.display = "block";
+                    btn.disabled = false;
+                    btn.innerText = "시스템 접속";
+                }
+            } catch (e) {
+                errorMsg.innerText = "서버 연결 오류: 네트워크를 확인하십시오.";
+                errorMsg.style.display = "block";
+                btn.disabled = false;
+                btn.innerText = "시스템 접속";
+            }
+        }
+
+        function startRedirect(url) {
+            const overlay = document.getElementById("loading-overlay");
+            const bar = document.getElementById("progress-bar");
+            overlay.style.display = "block";
             
-            btn.classList.add('loading');
-            const fill = btn.querySelector('.loader-fill');
-            
-            setTimeout(() => {
-                fill.style.width = '100%';
-            }, 50);
+            setTimeout(() => { bar.style.width = "100%"; }, 50);
 
             setTimeout(() => {
                 window.location.href = url;
-            }, 2000);
+            }, 1600);
         }
+
+        function simCommand(cmd) {
+            const term = document.getElementById("terminal");
+            term.style.display = "block";
+            const time = new Date().toLocaleTimeString();
+            
+            let log = `> [${time}] REQUEST: sudo systemctl ${cmd.toLowerCase()}<br>`;
+            log += `> [${time}] AUTH: admin session verified.<br>`;
+            log += `> [${time}] STATUS: broadcasting signal to cluster...<br>`;
+            log += `> [${time}] SUCCESS: command acknowledged by all nodes.<br><hr style="border:0;border-top:1px solid #333">`;
+            
+            term.innerHTML += log;
+            term.scrollTop = term.scrollHeight;
+
+            document.getElementById("modal-msg").innerText = `${cmd} 명령이 성공적으로 실행되었습니다.`;
+            document.getElementById("modal-overlay").style.display = "flex";
+        }
+
+        function closeModal() { document.getElementById("modal-overlay").style.display = "none"; }
     </script>
 </body>
 </html>
+
