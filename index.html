@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MinsuGPT Portal</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Elms+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <style>
+        /* 한글 폰트: Godo */
+        @font-face {
+            font-family: 'Godo';
+            src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoM.woff2') format('woff2'),
+                 url('//cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoM.woff') format('woff');
+            font-weight: 400;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Godo';
+            src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoB.woff2') format('woff2'),
+                 url('//cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoB.woff') format('woff');
+            font-weight: 700;
+            font-display: swap;
+        }
+
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #fcfcfc;
+            /* 전체 폰트 적용 확인 */
+            font-family: 'Godo', 'Elms Sans', sans-serif;
+        }
+
+        .card {
+            width: 480px;
+            background: white;
+            border-radius: 30px;
+            padding: 50px 40px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+            box-sizing: border-box;
+        }
+
+        /* 헤더 스타일 */
+        .header-group {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            margin-bottom: 45px;
+        }
+
+        .title-main {
+            font-family: 'Elms Sans', sans-serif;
+            font-weight: 500; /* 너무 얇지 않게 조정 */
+            font-size: 34px;
+            margin: 0;
+            color: #1a1a1a;
+            letter-spacing: -1px;
+        }
+
+        .title-sub {
+            font-family: 'Godo', sans-serif;
+            font-weight: 400;
+            font-size: 18px;
+            color: #666;
+        }
+
+        /* 버튼 레이아웃 */
+        .button-container {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+        }
+
+        /* 버튼 스타일 수정: 배경 제거, 테두리 강조 */
+        .btn {
+            flex: 1;
+            height: 200px;
+            border-radius: 25px;
+            /* 배경 없앰 및 테두리 진하게 */
+            background: none;
+            border: 2px solid #222; 
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 20px;
+        }
+
+        .btn:hover {
+            background-color: #222;
+            transform: translateY(-8px);
+        }
+
+        .btn:hover .btn-text {
+            color: #fff;
+        }
+
+        .btn-text {
+            /* 폰트 적용 강제 및 두께 연동 */
+            font-family: 'Elms Sans', 'Godo', sans-serif;
+            font-size: 20px;
+            font-weight: 500; 
+            color: #222;
+            text-align: center;
+            line-height: 1.3;
+            transition: color 0.3s ease;
+        }
+
+        /* 막대 로딩 애니메이션 */
+        .loader-container {
+            display: none;
+            width: 60%;
+            height: 5px;
+            background-color: #eee;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .loader-fill {
+            width: 0%;
+            height: 100%;
+            background-color: #222; /* 로딩바 색상 */
+            transition: width 2s linear;
+        }
+
+        /* 버튼 클릭 시 호버 효과 유지용 (텍스트 화이트) */
+        .btn.loading {
+            background-color: transparent !important;
+            border-color: #ccc;
+        }
+
+        .btn.loading .btn-text {
+            display: none;
+        }
+
+        .btn.loading .loader-container {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div class="header-group">
+            <h1 class="title-main">MinsuGPT</h1>
+            <span class="title-sub">접속패널</span>
+        </div>
+
+        <div class="button-container">
+            <button class="btn" onclick="startLoading(this, 'https://lite.minsugpt.kro.kr')">
+                <span class="btn-text">MinsuGPT<br>Lite</span>
+                <div class="loader-container">
+                    <div class="loader-fill"></div>
+                </div>
+            </button>
+
+            <button class="btn" onclick="startLoading(this, 'https://minsugpt.kro.kr')">
+                <span class="btn-text">MinsuGPT</span>
+                <div class="loader-container">
+                    <div class="loader-fill"></div>
+                </div>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function startLoading(btn, url) {
+            // 다른 버튼 클릭 방지 및 시각적 비활성화
+            document.querySelectorAll('.btn').forEach(b => {
+                b.style.pointerEvents = 'none';
+                if(b !== btn) b.style.opacity = '0.5';
+            });
+            
+            btn.classList.add('loading');
+            
+            const fill = btn.querySelector('.loader-fill');
+            // 애니메이션 실행
+            setTimeout(() => {
+                fill.style.width = '100%';
+            }, 50);
+
+            // 2초 후 리디렉션
+            setTimeout(() => {
+                window.location.href = url;
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
