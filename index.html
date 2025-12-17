@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MinsuGPT Portal</title>
+    <title>MinsuGPT 접속패널</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,124 +26,195 @@
             font-display: swap;
         }
 
+        :root {
+            /* 모든 요소에 적용될 폰트 스택 */
+            --main-font: 'Godo', 'Elms Sans', sans-serif;
+            --primary-color: #2563eb;
+            --bg-gradient: radial-gradient(circle at top left, #f8fafc, #e2e8f0);
+            --card-bg: rgba(255, 255, 255, 0.85);
+        }
+
+        * {
+            /* 모든 요소에 폰트 강제 적용 */
+            font-family: var(--main-font) !important;
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background-color: #fcfcfc;
-            /* 전체 폰트 적용 확인 */
-            font-family: 'Godo', 'Elms Sans', sans-serif;
+            min-height: 100vh;
+            background: var(--bg-gradient);
+            color: #1e293b;
         }
 
         .card {
-            width: 480px;
-            background: white;
-            border-radius: 30px;
-            padding: 50px 40px;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
-            box-sizing: border-box;
+            width: 90%;
+            max-width: 480px;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.4);
+            border-radius: 35px;
+            padding: 45px 35px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+            animation: fadeIn 0.6s ease-out;
         }
 
-        /* 헤더 스타일 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .header-group {
-            display: flex;
-            align-items: baseline;
-            gap: 12px;
-            margin-bottom: 45px;
+            text-align: center;
+            margin-bottom: 40px;
         }
 
         .title-main {
-            font-family: 'Elms Sans', sans-serif;
-            font-weight: 500; /* 너무 얇지 않게 조정 */
-            font-size: 34px;
+            font-size: 36px;
+            font-weight: 700;
             margin: 0;
-            color: #1a1a1a;
             letter-spacing: -1px;
+            color: #0f172a;
         }
 
         .title-sub {
-            font-family: 'Godo', sans-serif;
+            display: block;
+            font-size: 15px;
+            color: #64748b;
+            margin-top: 5px;
             font-weight: 400;
-            font-size: 18px;
-            color: #666;
         }
 
-        /* 버튼 레이아웃 */
         .button-container {
             display: flex;
-            gap: 25px;
-            justify-content: center;
+            flex-direction: column;
+            gap: 15px;
         }
 
-        /* 버튼 스타일 수정: 배경 제거, 테두리 강조 */
         .btn {
-            flex: 1;
-            height: 200px;
-            border-radius: 25px;
-            /* 배경 없앰 및 테두리 진하게 */
-            background: none;
-            border: 2px solid #222; 
+            position: relative;
+            width: 100%;
+            padding: 25px;
+            border-radius: 22px;
+            background: white;
+            border: 2px solid #0f172a; /* 기존 디자인의 진한 테두리 복구 */
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            position: relative;
-            padding: 20px;
+            justify-content: space-between;
+            overflow: hidden;
         }
 
         .btn:hover {
-            background-color: #222;
-            transform: translateY(-8px);
+            background-color: #0f172a;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.15);
         }
 
-        .btn:hover .btn-text {
-            color: #fff;
+        .btn:hover .btn-text, 
+        .btn:hover .btn-desc {
+            color: #ffffff;
+        }
+
+        .btn-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 2px;
+            z-index: 1;
         }
 
         .btn-text {
-            /* 폰트 적용 강제 및 두께 연동 */
-            font-family: 'Elms Sans', 'Godo', sans-serif;
-            font-size: 20px;
-            font-weight: 500; 
-            color: #222;
-            text-align: center;
-            line-height: 1.3;
+            font-size: 22px;
+            font-weight: 700;
+            color: #0f172a;
             transition: color 0.3s ease;
         }
 
-        /* 막대 로딩 애니메이션 */
+        .btn-desc {
+            font-size: 13px;
+            color: #64748b;
+            transition: color 0.3s ease;
+        }
+
+        /* 어드민 뱃지 */
+        .badge {
+            z-index: 1;
+            font-size: 11px;
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-weight: 700;
+            background: #f1f5f9;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .badge::before {
+            content: '';
+            width: 7px;
+            height: 7px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+            70% { box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+
+        /* 로딩 바 */
         .loader-container {
             display: none;
-            width: 60%;
-            height: 5px;
-            background-color: #eee;
-            border-radius: 10px;
-            overflow: hidden;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background-color: rgba(255,255,255,0.1);
         }
 
         .loader-fill {
             width: 0%;
             height: 100%;
-            background-color: #222; /* 로딩바 색상 */
+            background: #3b82f6;
             transition: width 2s linear;
         }
 
-        /* 버튼 클릭 시 호버 효과 유지용 (텍스트 화이트) */
-        .btn.loading {
-            background-color: transparent !important;
-            border-color: #ccc;
-        }
-
-        .btn.loading .btn-text {
-            display: none;
+        .btn.loading .btn-info, 
+        .btn.loading .badge {
+            visibility: hidden;
         }
 
         .btn.loading .loader-container {
             display: block;
+        }
+
+        /* 모바일 최적화: 가로 배열 유지하고 싶다면 min-width 조절 */
+        @media (min-width: 500px) {
+            .button-container {
+                flex-direction: row;
+            }
+            .btn {
+                flex: 1;
+                flex-direction: column;
+                height: 210px;
+                justify-content: center;
+                text-align: center;
+                gap: 15px;
+            }
+            .btn-info {
+                align-items: center;
+            }
         }
     </style>
 </head>
@@ -152,19 +223,27 @@
     <div class="card">
         <div class="header-group">
             <h1 class="title-main">MinsuGPT</h1>
-            <span class="title-sub">접속패널</span>
+            <span class="title-sub">ADMIN PORTAL</span>
         </div>
 
         <div class="button-container">
             <button class="btn" onclick="startLoading(this, 'https://lite.minsugpt.kro.kr')">
-                <span class="btn-text">MinsuGPT<br>Lite</span>
+                <div class="btn-info">
+                    <span class="btn-text">Lite</span>
+                    <span class="btn-desc">MinsuGPT Lite</span>
+                </div>
+                <div class="badge">ONLINE</div>
                 <div class="loader-container">
                     <div class="loader-fill"></div>
                 </div>
             </button>
 
             <button class="btn" onclick="startLoading(this, 'https://minsugpt.kro.kr')">
-                <span class="btn-text">MinsuGPT</span>
+                <div class="btn-info">
+                    <span class="btn-text">nomal</span>
+                    <span class="btn-desc">MinsuGPT</span>
+                </div>
+                <div class="badge">ONLINE</div>
                 <div class="loader-container">
                     <div class="loader-fill"></div>
                 </div>
@@ -174,21 +253,18 @@
 
     <script>
         function startLoading(btn, url) {
-            // 다른 버튼 클릭 방지 및 시각적 비활성화
             document.querySelectorAll('.btn').forEach(b => {
                 b.style.pointerEvents = 'none';
-                if(b !== btn) b.style.opacity = '0.5';
+                if(b !== btn) b.style.opacity = '0.3';
             });
             
             btn.classList.add('loading');
-            
             const fill = btn.querySelector('.loader-fill');
-            // 애니메이션 실행
+            
             setTimeout(() => {
                 fill.style.width = '100%';
             }, 50);
 
-            // 2초 후 리디렉션
             setTimeout(() => {
                 window.location.href = url;
             }, 2000);
